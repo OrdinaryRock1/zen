@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golden Zen Spa | Premium Wellness & Relaxace Praha 6</title>
+    <meta name="description"
+        content="Luxusní wellness, thajské masáže, kosmetika, kadeřnictví a sauna v Praze 6. Kompletní služby pro vaši krásu a relaxaci pod jednou střechou.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        espresso: { DEFAULT: '#4d3621', light: '#6b4e35', dark: '#3d2b1a' },
+                        gold: { DEFAULT: '#c6a267', light: '#d4b880', dark: '#b08c4f' },
+                        cream: '#faf7f2',
+                        charcoal: '#111111',
+                    },
+                    fontFamily: { serif: ['Playfair Display', 'serif'], sans: ['Inter', 'sans-serif'] },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shimmer {
+
+            0%,
+            100% {
+                opacity: 0.4;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes floatOrb {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-20px) scale(1.05);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-100%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse-gold {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(198, 162, 103, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(198, 162, 103, 0);
+            }
+        }
+
+        .anim-fade-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .anim-fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .anim-scale-in {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .anim-scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Hero load animations */
+        .hero-title {
+            animation: fadeUp 1s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .hero-sub {
+            animation: fadeUp 1s 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .hero-desc {
+            animation: fadeUp 1s 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .hero-btns {
+            animation: fadeUp 1s 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .hero-promo {
+            animation: fadeUp 1s 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .hero-img {
+            animation: scaleIn 1.2s 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        /* Glassmorphism Nav */
+        .nav-glass {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+            border-bottom: 1px solid rgba(198, 162, 103, 0.15);
+        }
+
+        /* Gold underline hover */
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #c6a267;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Button shine effect */
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-shine::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-shine:hover::before {
+            left: 100%;
+        }
+
+        /* Floating orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: floatOrb 6s ease-in-out infinite;
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        .mobile-overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            transform: translateY(30px) scale(0.95);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-overlay.open .modal-content {
+            transform: translateY(0) scale(1);
+        }
+
+        /* Service card hover */
+        .service-card {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(77, 54, 33, 0.12);
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .service-icon {
+            transition: transform 0.4s ease;
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #faf7f2;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c6a267;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-white font-sans text-charcoal overflow-x-hidden">
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+        <div class="max-w-[1400px] mx-auto px-8 lg:px-20 py-5 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex flex-col items-center justify-center cursor-pointer group z-50">
+                <div class="text-gold flex flex-col items-center">
+                    <svg width="48" height="42" viewBox="0 0 100 100"
+                        class="fill-current mb-1 group-hover:scale-110 transition-transform duration-500">
+                        <path d="M15,40 L25,65 L35,45 L50,70 L65,45 L75,65 L85,40 L85,30 L15,30 Z" opacity="0.8" />
+                        <path
+                            d="M50,85 C30,85 20,70 20,50 C20,30 35,15 50,15 C60,15 70,20 75,30 L65,35 C60,28 55,25 50,25 C40,25 30,35 30,50 C30,65 40,75 50,75 C58,75 65,70 68,60 L50,60 L50,50 L80,50 C80,70 65,85 50,85 Z" />
+                        <circle cx="15" cy="25" r="5" />
+                        <circle cx="35" cy="20" r="5" />
+                        <circle cx="50" cy="15" r="5" />
+                        <circle cx="65" cy="20" r="5" />
+                        <circle cx="85" cy="25" r="5" />
+                    </svg>
+                    <span class="font-serif tracking-[0.15em] text-[17px] uppercase font-semibold leading-tight">Golden
+                        Zen</span>
+                    <span class="text-[0.45rem] tracking-[0.2em] uppercase opacity-70 mt-0.5 font-medium">Massage, Hair
+                        & Skin Care</span>
+                </div>
+            </a>
+            <!-- Desktop Links -->
+            <div
+                class="hidden lg:flex items-center space-x-12 text-[14px] font-serif font-light text-charcoal/80 tracking-[0.25em] uppercase">
+                <a href="#sluzby" class="nav-link hover:text-gold transition-colors duration-300">Služby</a>
+                <a href="#onas" class="nav-link hover:text-gold transition-colors duration-300">O nás</a>
+                <a href="#cenik" class="nav-link hover:text-gold transition-colors duration-300">Ceník</a>
+                <a href="#tym" class="nav-link hover:text-gold transition-colors duration-300">Tým</a>
+                <a href="#kontakt" class="nav-link hover:text-gold transition-colors duration-300">Kontakt</a>
+            </div>
+            <!-- CTA -->
+            <div class="hidden lg:block ml-8">
+                <button onclick="openModal()"
+                    class="bg-[#cba874] text-espresso px-10 py-3.5 font-serif text-[14px] tracking-[0.25em] font-light uppercase border border-[#cba874] hover:bg-transparent hover:text-[#cba874] transition-all duration-500 shadow-sm hover:shadow-lg">
+                    Rezervace
+                </button>
+            </div>
+            <!-- Hamburger -->
+            <button id="hamburger" onclick="toggleMobile()" class="lg:hidden z-50 p-2 text-espresso focus:outline-none"
+                aria-label="Menu">
+                <div class="w-7 h-5 flex flex-col justify-between transition-all duration-300" id="hamburger-icon">
+                    <span class="block w-full h-[2px] bg-current transition-all duration-300 origin-center"
+                        id="ham1"></span>
+                    <span class="block w-full h-[2px] bg-current transition-all duration-300" id="ham2"></span>
+                    <span class="block w-full h-[2px] bg-current transition-all duration-300 origin-center"
+                        id="ham3"></span>
+                </div>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-overlay" class="mobile-overlay fixed inset-0 bg-black/50 z-40" onclick="toggleMobile()"></div>
+    <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-[80%] max-w-[380px] h-full bg-white z-40 shadow-2xl">
+        <div class="pt-28 px-8 flex flex-col space-y-6">
+            <a href="#sluzby" onclick="toggleMobile()"
+                class="text-2xl font-serif text-espresso hover:text-gold transition-colors border-b border-cream pb-4">Naše
+                Služby</a>
+            <a href="#poukazy" onclick="toggleMobile()"
+                class="text-2xl font-serif text-espresso hover:text-gold transition-colors border-b border-cream pb-4">Dárkové
+                Poukazy</a>
+            <a href="#cenik" onclick="toggleMobile()"
+                class="text-2xl font-serif text-espresso hover:text-gold transition-colors border-b border-cream pb-4">Ceník</a>
+            <a href="#onas" onclick="toggleMobile()"
+                class="text-2xl font-serif text-espresso hover:text-gold transition-colors border-b border-cream pb-4">O
+                Nás</a>
+            <a href="#kontakt" onclick="toggleMobile()"
+                class="text-2xl font-serif text-espresso hover:text-gold transition-colors border-b border-cream pb-4">Kontakt</a>
+            <button onclick="openModal();toggleMobile()"
+                class="mt-4 btn-shine bg-espresso text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-espresso-dark transition-all shadow-lg">Rezervace</button>
+        </div>
+    </div>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="relative min-h-screen flex items-center pt-24 overflow-hidden">
+        <!-- Background orbs -->
+        <div class="orb w-[300px] h-[300px] bg-gold/5 -top-20 -left-20" style="animation-delay:0s"></div>
+        <div class="orb w-[200px] h-[200px] bg-gold/5 bottom-20 right-10" style="animation-delay:2s"></div>
+
+        <div
+            class="max-w-[1400px] mx-auto px-8 lg:px-20 py-12 lg:py-0 flex flex-col lg:flex-row items-center justify-between w-full">
+            <!-- Left: Text -->
+            <div class="w-full lg:w-[50%] flex flex-col items-start z-10">
+                <h1
+                    class="hero-title font-serif italic text-[2.5rem] sm:text-[3.5rem] lg:text-[4.5rem] text-gold leading-[1.05] mb-2 font-medium">
+                    Krása & relaxace
+                </h1>
+                <h2
+                    class="hero-sub text-[1.8rem] sm:text-[2.5rem] lg:text-[2.75rem] font-semibold text-charcoal mb-8 leading-tight tracking-tight">
+                    pod jednou střechou
+                </h2>
+                <p
+                    class="hero-desc text-gray-600 text-[16px] sm:text-[17px] leading-[1.8] mb-12 max-w-[90%] font-light">
+                    Kompletní služby pro vaši pohodu – od spa procedur, kosmetiky, kadeřnictví a péče o vousy až po
+                    saunu a nově otevřené thajské masáže Praha 6 v podání certifikovaných thajských masérek.
+                </p>
+                <div class="hero-btns flex flex-wrap items-center gap-4 mb-10">
+                    <a href="#poukazy"
+                        class="border-2 border-gray-300 text-gray-700 font-bold px-8 py-3.5 rounded-full hover:bg-cream hover:border-gold transition-all duration-300 hover:scale-105 active:scale-95">
+                        Dárkové Poukazy
+                    </a>
+                    <button onclick="openModal()"
+                        class="btn-shine bg-espresso text-white font-bold px-10 py-3.5 rounded-full hover:bg-espresso-dark transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95"
+                        style="animation:pulse-gold 2s infinite">
+                        Rezervace
+                    </button>
+                </div>
+                <div class="hero-promo relative group mt-4 sm:max-w-xl">
+                    <!-- Background Glow -->
+                    <div
+                        class="absolute -inset-1 bg-gradient-to-r from-gold via-[#e6d0a7] to-gold rounded-3xl blur opacity-20 group-hover:opacity-50 transition duration-1000 group-hover:duration-200">
+                    </div>
+
+                    <!-- Content Box -->
+                    <div
+                        class="relative bg-espresso p-5 rounded-2xl shadow-xl overflow-hidden border border-gold/20 flex flex-col gap-2">
+                        <!-- Glass shine sweep -->
+                        <div
+                            class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out">
+                        </div>
+
+                        <!-- Top Label -->
+                        <div class="flex items-center gap-3 mb-0.5">
+                            <div class="w-6 h-[1px] bg-gold/50"></div>
+                            <span class="text-[0.55rem] text-gold tracking-[0.25em] uppercase font-bold">Akční
+                                nabídka</span>
+                            <div class="w-6 h-[1px] bg-gold/50"></div>
+                        </div>
+
+                        <!-- Highlights -->
+                        <p
+                            class="font-serif text-[0.95rem] sm:text-[1.05rem] leading-snug flex items-start text-white/90">
+                            <span class="text-gold mr-2.5 text-base animate-pulse mt-0.5">✦</span>
+                            <span>Slavnostní otevření — <strong class="text-gold font-semibold italic text-[1.1rem]">30%
+                                    sleva</strong> na všechny produkty!</span>
+                        </p>
+
+                        <div class="w-full h-[1px] bg-white/10 my-0.5"></div>
+
+                        <p
+                            class="font-serif text-[0.95rem] sm:text-[1.05rem] leading-snug flex items-start text-white/90">
+                            <span class="text-gold mr-2.5 text-base animate-pulse mt-0.5">✦</span>
+                            <span>Získejte balíček <strong class="text-gold font-semibold italic text-[1.1rem]">10
+                                    masáží + 1 zdarma!</strong></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Right: Image -->
+            <div class="w-full lg:w-[45%] mt-16 lg:mt-0 flex justify-center lg:justify-end relative hero-img">
+                <div class="relative w-[260px] h-[260px] sm:w-[360px] sm:h-[360px] lg:w-[460px] lg:h-[460px]">
+                    <!-- Decorative ring -->
+                    <div class="absolute inset-0 rounded-full border-2 border-gold/20 scale-110 animate-pulse"></div>
+                    <div class="absolute inset-0 rounded-full border border-gold/10 scale-125"></div>
+                    <div class="relative w-full h-full rounded-full overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                            alt="Relaxační masáž v Golden Zen Spa"
+                            class="w-full h-full object-cover object-center scale-105 hover:scale-110 transition-transform duration-700" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Scroll indicator -->
+        <div
+            class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60 animate-bounce">
+            <span class="text-xs tracking-widest uppercase text-gray-400">Scroll</span>
+            <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+        </div>
+    </section>
+
+    <!-- ===== SERVICES SECTION ===== -->
+    <section id="sluzby" class="py-24 bg-cream relative">
+        <div class="max-w-[1400px] mx-auto px-8 lg:px-20">
+            <div class="text-center mb-16 anim-fade-up">
+                <span class="text-gold font-semibold text-[11px] tracking-[0.2em] uppercase">Naše nabídka</span>
+                <h2 class="font-serif italic text-[2.5rem] lg:text-[3.5rem] text-charcoal mt-3 leading-tight">Dotek
+                    luxusu pro tělo i duši</h2>
+                <div class="w-16 h-[2px] bg-[#e6d0a7] mx-auto mt-6"></div>
+            </div>
+
+            <div class="flex flex-col gap-12 max-w-[1200px] mx-auto">
+                <!-- Service 1: Thajské masáže (Image Left) -->
+                <div
+                    class="flex flex-col md:flex-row bg-white rounded-3xl overflow-hidden shadow-[0_4px_25px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.08)] transition-all duration-500 anim-fade-up">
+                    <div class="md:w-5/12 h-[300px] md:h-auto relative overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Thajské masáže"
+                            class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                    </div>
+                    <div class="md:w-7/12 p-8 lg:p-14 flex flex-col justify-center bg-white relative">
+                        <div class="flex items-center gap-6 mb-6">
+                            <h4 class="font-serif italic text-[2rem] lg:text-[2.2rem] text-charcoal">Thajské masáže</h4>
+                            <div class="h-[1px] flex-grow bg-gold/30 hidden sm:block"></div>
+                        </div>
+                        <p class="text-gray-600 font-light text-[15.5px] leading-relaxed mb-8">
+                            Starodávné umění spojující akupresuru, protahování a práci s energií těla. Uvolňuje svaly,
+                            zlepšuje pružnost a navrací rovnováhu těla i mysli. Dopřejte si jedinečný zážitek.
+                        </p>
+
+                        <div class="flex flex-wrap gap-2.5 mb-10">
+                            <span
+                                class="px-4 py-1.5 bg-cream border border-gold/20 text-[11px] font-semibold text-espresso rounded-full tracking-wide">Tradiční
+                                thajská</span>
+                            <span
+                                class="px-4 py-1.5 bg-cream border border-gold/20 text-[11px] font-semibold text-espresso rounded-full tracking-wide">Olejová
+                                masáž</span>
+                            <span
+                                class="px-4 py-1.5 bg-cream border border-gold/20 text-[11px] font-semibold text-espresso rounded-full tracking-wide">Bylinné
+                                měšce</span>
+                        </div>
+
+                        <div class="mt-auto">
+                            <button onclick="openModal()"
+                                class="btn-shine bg-espresso text-white px-8 py-3.5 rounded-full font-bold text-[13px] tracking-widest uppercase hover:bg-espresso-dark transition-all duration-300 shadow-lg hover:shadow-2xl hover:-translate-y-1">
+                                Rezervace
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 2: Párové masáže (Image Right) -->
+                <div
+                    class="flex flex-col md:flex-row-reverse bg-white rounded-3xl overflow-hidden shadow-[0_4px_25px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.08)] transition-all duration-500 anim-fade-up">
+                    <div class="md:w-5/12 h-[300px] md:h-auto relative overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Párové masáže"
+                            class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                    </div>
+                    <div class="md:w-7/12 p-8 lg:p-14 flex flex-col justify-center bg-white relative">
+                        <div class="flex items-center gap-6 mb-6">
+                            <div class="h-[1px] flex-grow bg-gold/30 hidden sm:block"></div>
+                            <h4 class="font-serif italic text-[2rem] lg:text-[2.2rem] text-charcoal">Párové masáže</h4>
+                        </div>
+                        <p class="text-gray-600 font-light text-[15.5px] leading-relaxed mb-8 sm:text-right">
+                            Zažijte společný odpočinek vedle sebe. Párová masáž uvolní tělo i mysl a přinese jedinečný
+                            zážitek pro partnery či blízké. Dokonalý relax ve dvou.
+                        </p>
+
+                        <div class="flex flex-wrap gap-2.5 mb-10 sm:justify-end">
+                            <span
+                                class="px-4 py-1.5 bg-cream border border-gold/20 text-[11px] font-semibold text-espresso rounded-full tracking-wide">Romantický
+                                balíček</span>
+                            <span
+                                class="px-4 py-1.5 bg-cream border border-gold/20 text-[11px] font-semibold text-espresso rounded-full tracking-wide">Relaxace
+                                ve dvou</span>
+                        </div>
+
+                        <div class="mt-auto sm:flex sm:justify-end">
+                            <button onclick="openModal()"
+                                class="btn-shine bg-espresso text-white px-8 py-3.5 rounded-full font-bold text-[13px] tracking-widest uppercase hover:bg-espresso-dark transition-all duration-300 shadow-lg hover:shadow-2xl hover:-translate-y-1">
+                                Rezervace
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 3: Kosmetické služby (Image Left) -->
+                <div
+                    class="flex flex-col md:flex-row bg-white rounded-3xl overflow-hidden shadow-[0_4px_25px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.08)] transition-all duration-500 anim-fade-up">
+                    <div class="md:w-5/12 h-[300px] md:h-auto relative overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Kosmetické služby"
+                            class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                    </div>
+                    <div class="md:w-7/12 p-8 lg:p-14 flex flex-col justify-center bg-white relative">
+                        <div class="flex items-center gap-6 mb-6">
+                            <h4 class="font-serif italic text-[2rem] lg:text-[2.2rem] text-charcoal">Kosmetické služby
+                            </h4>
+                            <div class="h-[1px] flex-grow bg-gold/30 hidden sm:block"></div>
+                        </div>
+                        <p class="text-gray-600 font-light text-[15.5px] leading-relaxed mb-8">
+                            Již 17 let pomáháme lidem cítit se krásně. Jsme oceněni „Zlatými ručičkami“ za špičkovou
+                            kvalitu a specializujeme se na profesionální péči o vaši pleť.
+                        </p>
+
+                        <div class="flex flex-wrap gap-2.5 mb-10">
+                            <span
+                                class="px-4 py-1.5 bg-cream border border-gold/20 text-[11px] font-semibold text-espresso rounded-full tracking-wide">Léčba
+                                akné</span>
+                            <span
+                                class="px-4 py-1.5 bg-cream border border-gold/20 text-[11px] font-semibold text-espresso rounded-full tracking-wide">Anti-aging
+                                terapié</span>
+                            <span
+                                class="px-4 py-1.5 bg-cream border border-gold/20 text-[11px] font-semibold text-espresso rounded-full tracking-wide">Pigmentové
+                                skvrny</span>
+                        </div>
+
+                        <div class="mt-auto">
+                            <button onclick="openModal()"
+                                class="btn-shine bg-espresso text-white px-8 py-3.5 rounded-full font-bold text-[13px] tracking-widest uppercase hover:bg-espresso-dark transition-all duration-300 shadow-lg hover:shadow-2xl hover:-translate-y-1">
+                                Rezervace
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 4: Kadeřnictví (Image Right) -->
+                <div
+                    class="flex flex-col md:flex-row-reverse bg-white rounded-3xl overflow-hidden shadow-[0_4px_25px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.08)] transition-all duration-500 anim-fade-up">
+                    <div class="md:w-5/12 h-[300px] md:h-auto relative overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Kadeřnictví"
+                            class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                    </div>
+                    <div class="md:w-7/12 p-8 lg:p-14 flex flex-col justify-center bg-white relative">
+                        <div class="flex items-center gap-6 mb-6">
+                            <div class="h-[1px] flex-grow bg-gold/30 hidden sm:block"></div>
+                            <h4 class="font-serif italic text-[2rem] lg:text-[2.2rem] text-charcoal">Kadeřnictví</h4>
+                        </div>
+                        <p class="text-gray-600 font-light text-[15.5px] leading-relaxed mb-8 sm:text-right">
+                            Profesionální péče pro dámy i pány bez čekání. U nás si dopřejete perfektní úpravu vlasů i
+                            moderní střihy, styling a precizní zastřižení vousů.
+                        </p>
+
+                        <div class="flex flex-wrap gap-2.5 mb-10 sm:justify-end">
+                            <span
+                                class="px-4 py-1.5 bg-cream border border-gold/20 text-[11px] font-semibold text-espresso rounded-full tracking-wide">Dámské
+                                střihy & barvení</span>
+                            <span
+                                class="px-4 py-1.5 bg-cream border border-gold/20 text-[11px] font-semibold text-espresso rounded-full tracking-wide">Barber</span>
+                        </div>
+
+                        <div class="mt-auto sm:flex sm:justify-end">
+                            <button onclick="openModal()"
+                                class="btn-shine bg-espresso text-white px-8 py-3.5 rounded-full font-bold text-[13px] tracking-widest uppercase hover:bg-espresso-dark transition-all duration-300 shadow-lg hover:shadow-2xl hover:-translate-y-1">
+                                Rezervace
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 5: Finská sauna (Image Left) -->
+                <div
+                    class="flex flex-col md:flex-row bg-white rounded-3xl overflow-hidden shadow-[0_4px_25px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.08)] transition-all duration-500 anim-fade-up">
+                    <div class="md:w-5/12 h-[300px] md:h-auto relative overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1583416750470-965b2707b355?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Finská sauna"
+                            class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                    </div>
+                    <div class="md:w-7/12 p-8 lg:p-14 flex flex-col justify-center bg-white relative">
+                        <div class="flex items-center gap-6 mb-6">
+                            <h4 class="font-serif italic text-[2rem] lg:text-[2.2rem] text-charcoal">Finská sauna</h4>
+                            <div class="h-[1px] flex-grow bg-gold/30 hidden sm:block"></div>
+                        </div>
+                        <p class="text-gray-600 font-light text-[15.5px] leading-relaxed mb-8">
+                            Dopřejte si odpočinek, který prospívá tělu i mysli. Tradiční finská sauna podporuje
+                            detoxikaci organismu, uvolňuje svaly, pomáhá odbourávat stres a navozuje hlubokou relaxaci.
+                        </p>
+
+                        <div class="flex flex-wrap gap-2.5 mb-10">
+                            <span
+                                class="px-4 py-1.5 bg-cream border border-gold/20 text-[11px] font-semibold text-espresso rounded-full tracking-wide">Privátní
+                                sauna</span>
+                            <span
+                                class="px-4 py-1.5 bg-cream border border-gold/20 text-[11px] font-semibold text-espresso rounded-full tracking-wide">Detoxikace</span>
+                        </div>
+
+                        <div class="mt-auto">
+                            <button onclick="openModal()"
+                                class="btn-shine bg-espresso text-white px-8 py-3.5 rounded-full font-bold text-[13px] tracking-widest uppercase hover:bg-espresso-dark transition-all duration-300 shadow-lg hover:shadow-2xl hover:-translate-y-1">
+                                Rezervace
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT SECTION ===== -->
+    <section id="onas" class="py-24 bg-white">
+        <div class="max-w-[1400px] mx-auto px-8 lg:px-20 flex flex-col lg:flex-row items-center gap-16">
+            <div class="w-full lg:w-1/2 anim-scale-in">
+                <div class="relative rounded-3xl overflow-hidden shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Interiér Golden Zen Spa"
+                        class="w-full h-[400px] lg:h-[500px] object-cover hover:scale-105 transition-transform duration-700" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-espresso/30 to-transparent"></div>
+                </div>
+            </div>
+            <div class="w-full lg:w-1/2 anim-fade-up">
+                <span class="text-gold font-semibold text-sm tracking-[0.3em] uppercase">O nás</span>
+                <h2 class="font-serif text-4xl sm:text-5xl text-espresso mt-3 mb-6">Váš oáza klidu<br>v srdci Prahy 6
+                </h2>
+                <div class="w-16 h-[2px] bg-gold mb-8"></div>
+                <p class="text-gray-500 leading-[1.8] mb-6">Golden Zen Spa je prémiové wellness centrum v Praze 6, kde
+                    se tradice setkává s moderním luxusem. Naše prostory jsou navrženy tak, aby vám poskytly maximální
+                    komfort a pocit klidu od prvního okamžiku.</p>
+                <p class="text-gray-500 leading-[1.8] mb-8">S týmem certifikovaných odborníků nabízíme širokou škálu
+                    služeb – od autentických thajských masáží přes profesionální kadeřnictví až po luxusní spa
+                    procedury.</p>
+                <div class="flex gap-12">
+                    <div><span class="text-3xl font-serif text-gold font-bold">10+</span>
+                        <p class="text-gray-400 text-sm mt-1">Let zkušeností</p>
+                    </div>
+                    <div><span class="text-3xl font-serif text-gold font-bold">5k+</span>
+                        <p class="text-gray-400 text-sm mt-1">Spokojených klientů</p>
+                    </div>
+                    <div><span class="text-3xl font-serif text-gold font-bold">15+</span>
+                        <p class="text-gray-400 text-sm mt-1">Certifikovaných specialistů</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section class="py-24 bg-espresso text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute w-[600px] h-[600px] bg-gold rounded-full -top-40 -right-40"></div>
+        </div>
+        <div class="max-w-[1400px] mx-auto px-8 lg:px-20 relative z-10">
+            <div class="text-center mb-16 anim-fade-up">
+                <span class="text-gold font-semibold text-sm tracking-[0.3em] uppercase">Reference</span>
+                <h2 class="font-serif text-4xl sm:text-5xl text-white mt-3 mb-4">Co říkají naši klienti</h2>
+                <div class="w-16 h-[2px] bg-gold mx-auto"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 anim-fade-up border border-white/5"
+                    style="transition-delay:0.1s">
+                    <div class="flex gap-1 mb-4 text-gold text-lg">★★★★★</div>
+                    <p class="text-white/80 leading-relaxed mb-6 italic">"Nejlepší thajská masáž v Praze! Maséra přesně
+                        věděla, kde mám napětí. Odcházela jsem jako nový člověk."</p>
+                    <p class="font-semibold text-gold">— Martina K.</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 anim-fade-up border border-white/5"
+                    style="transition-delay:0.2s">
+                    <div class="flex gap-1 mb-4 text-gold text-lg">★★★★★</div>
+                    <p class="text-white/80 leading-relaxed mb-6 italic">"Nádherné prostředí, profesionální přístup.
+                        Sauna je fantastická. Chodím sem pravidelně a nikdy nezklame."</p>
+                    <p class="font-semibold text-gold">— Petr V.</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 anim-fade-up border border-white/5"
+                    style="transition-delay:0.3s">
+                    <div class="flex gap-1 mb-4 text-gold text-lg">★★★★★</div>
+                    <p class="text-white/80 leading-relaxed mb-6 italic">"Kadeřnictví i kosmetika na špičkové úrovni.
+                        Celý tým je skvělý a atmosféra je opravdu luxusní."</p>
+                    <p class="font-semibold text-gold">— Lucie S.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="kontakt" class="py-24 bg-cream">
+        <div class="max-w-[1400px] mx-auto px-8 lg:px-20">
+            <div class="text-center mb-16 anim-fade-up">
+                <span class="text-gold font-semibold text-sm tracking-[0.3em] uppercase">Kontakt</span>
+                <h2 class="font-serif text-4xl sm:text-5xl text-espresso mt-3 mb-4">Navštivte nás</h2>
+                <div class="w-16 h-[2px] bg-gold mx-auto"></div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 anim-fade-up">
+                <div class="bg-white rounded-3xl p-10 shadow-sm">
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-12 h-12 bg-gold/10 rounded-xl flex items-center justify-center text-xl flex-shrink-0">
+                                📍</div>
+                            <div>
+                                <h4 class="font-bold text-espresso mb-1">Adresa</h4>
+                                <p class="text-gray-500">Evropská 123, Praha 6, 160 00</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-12 h-12 bg-gold/10 rounded-xl flex items-center justify-center text-xl flex-shrink-0">
+                                📞</div>
+                            <div>
+                                <h4 class="font-bold text-espresso mb-1">Telefon</h4>
+                                <p class="text-gray-500">+420 123 456 789</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-12 h-12 bg-gold/10 rounded-xl flex items-center justify-center text-xl flex-shrink-0">
+                                ✉️</div>
+                            <div>
+                                <h4 class="font-bold text-espresso mb-1">E-mail</h4>
+                                <p class="text-gray-500">info@goldenzenspa.cz</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-12 h-12 bg-gold/10 rounded-xl flex items-center justify-center text-xl flex-shrink-0">
+                                🕐</div>
+                            <div>
+                                <h4 class="font-bold text-espresso mb-1">Otevírací doba</h4>
+                                <p class="text-gray-500">Po–Pá: 9:00–21:00<br>So–Ne: 10:00–20:00</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rounded-3xl overflow-hidden shadow-sm h-[400px]">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2558.8!2d14.38!3d50.1!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTDCsDA2JzAwLjAiTiAxNMKwMjInNDguMCJF!5e0!3m2!1scs!2scz!4v1"
+                        width="100%" height="100%" style="border:0" allowfullscreen="" loading="lazy"
+                        title="Mapa Golden Zen Spa"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="bg-espresso text-white/70 py-16">
+        <div class="max-w-[1400px] mx-auto px-8 lg:px-20">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+                <div>
+                    <div class="text-gold mb-4">
+                        <svg width="40" height="35" viewBox="0 0 100 100" class="fill-current mb-2">
+                            <path d="M15,40 L25,65 L35,45 L50,70 L65,45 L75,65 L85,40 L85,30 L15,30 Z" opacity="0.8" />
+                            <path
+                                d="M50,85 C30,85 20,70 20,50 C20,30 35,15 50,15 C60,15 70,20 75,30 L65,35 C60,28 55,25 50,25 C40,25 30,35 30,50 C30,65 40,75 50,75 C58,75 65,70 68,60 L50,60 L50,50 L80,50 C80,70 65,85 50,85 Z" />
+                        </svg>
+                        <span class="font-serif tracking-[0.15em] text-lg uppercase font-semibold">Golden Zen</span>
+                    </div>
+                    <p class="text-sm leading-relaxed">Prémiové wellness centrum v Praze 6. Kompletní služby pro vaši
+                        krásu a relaxaci.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4">Rychlé odkazy</h4>
+                    <div class="space-y-2 text-sm">
+                        <a href="#sluzby" class="block hover:text-gold transition-colors">Naše Služby</a>
+                        <a href="#poukazy" class="block hover:text-gold transition-colors">Dárkové Poukazy</a>
+                        <a href="#onas" class="block hover:text-gold transition-colors">O Nás</a>
+                        <a href="#kontakt" class="block hover:text-gold transition-colors">Kontakt</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4">Sledujte nás</h4>
+                    <div class="flex gap-3">
+                        <a href="#"
+                            class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-gold hover:text-white transition-all text-sm"
+                            aria-label="Facebook">f</a>
+                        <a href="#"
+                            class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-gold hover:text-white transition-all text-sm"
+                            aria-label="Instagram">ig</a>
+                        <a href="#"
+                            class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-gold hover:text-white transition-all text-sm"
+                            aria-label="TikTok">tk</a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 text-center text-xs">
+                <p>© 2026 Golden Zen Spa. Všechna práva vyhrazena.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== BOOKING MODAL ===== -->
+    <div id="booking-modal"
+        class="modal-overlay fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+        <div class="modal-content bg-white rounded-3xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <div><span class="text-gold font-semibold text-xs tracking-[0.2em] uppercase">Golden Zen Spa</span>
+                        <h3 class="font-serif text-2xl text-espresso mt-1">Rezervace</h3>
+                    </div>
+                    <button onclick="closeModal()"
+                        class="w-10 h-10 rounded-full bg-cream flex items-center justify-center hover:bg-gray-200 transition-colors text-espresso text-xl">&times;</button>
+                </div>
+                <form onsubmit="event.preventDefault();submitBooking()" class="space-y-4">
+                    <div><label class="block text-sm font-semibold text-espresso mb-1">Jméno a příjmení</label><input
+                            type="text" required
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition-all text-sm"
+                            placeholder="Vaše jméno"></div>
+                    <div><label class="block text-sm font-semibold text-espresso mb-1">Telefon</label><input type="tel"
+                            required
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition-all text-sm"
+                            placeholder="+420..."></div>
+                    <div><label class="block text-sm font-semibold text-espresso mb-1">E-mail</label><input type="email"
+                            required
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition-all text-sm"
+                            placeholder="vas@email.cz"></div>
+                    <div><label class="block text-sm font-semibold text-espresso mb-1">Služba</label>
+                        <select required
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition-all text-sm bg-white">
+                            <option value="">Vyberte službu...</option>
+                            <option>Thajská masáž</option>
+                            <option>Kadeřnictví</option>
+                            <option>Kosmetika</option>
+                            <option>Sauna & Spa</option>
+                            <option>Barber</option>
+                            <option>Jiné</option>
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label class="block text-sm font-semibold text-espresso mb-1">Datum</label><input
+                                type="date" required
+                                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition-all text-sm">
+                        </div>
+                        <div><label class="block text-sm font-semibold text-espresso mb-1">Čas</label><input type="time"
+                                required
+                                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition-all text-sm">
+                        </div>
+                    </div>
+                    <div><label class="block text-sm font-semibold text-espresso mb-1">Poznámka</label><textarea
+                            rows="3"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition-all text-sm resize-none"
+                            placeholder="Máte speciální přání?"></textarea></div>
+                    <button type="submit"
+                        class="btn-shine w-full bg-espresso text-white py-4 rounded-xl font-bold text-[15px] hover:bg-espresso-dark transition-all shadow-lg hover:shadow-xl mt-2">
+                        Potvrdit Rezervaci
+                    </button>
+                </form>
+                <div id="booking-success" class="hidden text-center py-12">
+                    <div class="text-5xl mb-4">✨</div>
+                    <h4 class="font-serif text-2xl text-espresso mb-2">Děkujeme!</h4>
+                    <p class="text-gray-500">Vaše rezervace byla odeslána. Brzy se vám ozveme.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        // --- Sticky Glassmorphism Navbar ---
+        const navbar = document.getElementById('navbar');
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const y = window.scrollY;
+            if (y > 80) { navbar.classList.add('nav-glass'); navbar.querySelector('.py-5')?.classList.replace('py-5', 'py-3'); }
+            else { navbar.classList.remove('nav-glass'); navbar.querySelector('.py-3')?.classList.replace('py-3', 'py-5'); }
+            lastScroll = y;
+        });
+
+        // --- Mobile Menu ---
+        let mobileOpen = false;
+        function toggleMobile() {
+            mobileOpen = !mobileOpen;
+            document.getElementById('mobile-menu').classList.toggle('open', mobileOpen);
+            document.getElementById('mobile-overlay').classList.toggle('open', mobileOpen);
+            document.body.style.overflow = mobileOpen ? 'hidden' : '';
+            // Animate hamburger to X
+            const h1 = document.getElementById('ham1'), h2 = document.getElementById('ham2'), h3 = document.getElementById('ham3');
+            if (mobileOpen) { h1.style.transform = 'rotate(45deg) translate(5px,5px)'; h2.style.opacity = '0'; h3.style.transform = 'rotate(-45deg) translate(5px,-5px)'; }
+            else { h1.style.transform = ''; h2.style.opacity = ''; h3.style.transform = ''; }
+        }
+
+        // --- Booking Modal ---
+        function openModal() { document.getElementById('booking-modal').classList.add('open'); document.body.style.overflow = 'hidden'; }
+        function closeModal() { document.getElementById('booking-modal').classList.remove('open'); document.body.style.overflow = ''; document.getElementById('booking-success').classList.add('hidden'); document.querySelector('#booking-modal form').classList.remove('hidden'); }
+        function submitBooking() { document.querySelector('#booking-modal form').classList.add('hidden'); document.getElementById('booking-success').classList.remove('hidden'); setTimeout(closeModal, 3000); }
+        // Close on escape
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); if (mobileOpen) toggleMobile(); } });
+
+        // --- Scroll Animations (Intersection Observer) ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('.anim-fade-up, .anim-scale-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>
